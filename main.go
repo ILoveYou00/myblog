@@ -16,6 +16,5 @@ func main() {
 		WriteTimeout:   config.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-
 	_ = s.ListenAndServe()
 }
