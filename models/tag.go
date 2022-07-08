@@ -17,3 +17,24 @@ func GetTagTotal(maps interface{}) (count int64) {
 	DB.Model(&Tag{}).Where(maps).Count(&count)
 	return
 }
+
+func ExistTagByName(name string) bool {
+	var tag Tag
+	result := DB.Select("id").Where("name = ?", name).First(&tag)
+	if result.RowsAffected > 0 {
+		return true
+	}
+	return false
+}
+
+func AddTag(tag *Tag) error {
+	return DB.Create(tag).Error
+}
+
+func EditTag(p *ParamsUpdateTag) error {
+	return DB.Model(&Tag{}).Where("id = ?", p.Id).Updates(Tag{Name: p.Name, ModifiedBy: p.ModifiedBy}).Error
+}
+
+func DeleteTag(id int) error {
+	return DB.Where("id = ?", id).Delete(&Tag{}).Debug().Error
+}

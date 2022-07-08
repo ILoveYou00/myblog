@@ -9,14 +9,15 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"log"
+	"time"
 )
 
 var DB *gorm.DB
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:"id"`
-	CreatedOn  int `json:"created_on"`
-	ModifiedOn int `json:"modified_on"`
+	ID         int       `gorm:"primary_key" json:"id"`
+	CreatedOn  time.Time `json:"created_on" gorm:"autoCreateTime"`
+	ModifiedOn time.Time `json:"modified_on" gorm:"autoUpdateTime"`
 }
 
 //初始化数据库
@@ -47,7 +48,7 @@ func init() {
 			TablePrefix: config.TablePrefix,
 		},
 		//设置日志格式
-		Logger: logger.Default.LogMode(logger.Silent),
+		Logger: logger.Default.LogMode(logger.Info),
 	})
 }
 
