@@ -19,6 +19,7 @@ type Model struct {
 //初始化数据库
 func init() {
 
+	//连接数据库
 	db, err := gorm.Open(config.Type, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		config.User,
 		config.Password,
@@ -29,12 +30,14 @@ func init() {
 		log.Println(err)
 	}
 
-	//表名
+	//对表名添加前缀
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return config.TablePrefix + defaultTableName
 	}
 
+	//设置表名为单数形式
 	db.SingularTable(true)
+	//设置日志模式
 	db.LogMode(true)
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
