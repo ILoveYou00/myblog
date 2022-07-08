@@ -9,11 +9,11 @@ type Tag struct {
 }
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
-	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
+	DB.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
 	return
 }
 
-func GetTagTotal(maps interface{}) (count int) {
-	db.Model(&Tag{}).Where(maps).Count(&count)
+func GetTagTotal(maps interface{}) (count int64) {
+	DB.Model(&Tag{}).Where(maps).Count(&count)
 	return
 }

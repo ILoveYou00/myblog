@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/ILoveYou00/myblog/config"
 	"github.com/ILoveYou00/myblog/models"
 	"github.com/ILoveYou00/myblog/util"
@@ -20,6 +21,7 @@ func GetTags(c *gin.Context) {
 		maps["name"] = name
 	}
 
+	fmt.Println("=========================")
 	var state int = -1
 	if arg := c.Query("state"); arg != "" {
 		state = com.StrTo(arg).MustInt()
