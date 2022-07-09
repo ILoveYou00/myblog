@@ -43,3 +43,14 @@ func GetArticles(pageNum int, pageSize int) (articles []Article, err error) {
 func CreateArticle(article *Article) (err error) {
 	return DB.Create(article).Debug().Error
 }
+
+// EditArticle 修改文章
+func EditArticle(p *ParamsUpdateArticle) error {
+	return DB.Model(&Article{}).Where("id = ?", p.Id).Updates(Article{TagID: p.TagId, Title: p.Title,
+		Desc: p.Desc, Content: p.Content, ModifiedBy: p.ModifiedBy, State: p.State}).Error
+
+}
+
+func DeleteArticle(id int) error {
+	return DB.Where("id = ?", id).Delete(Article{}).Error
+}

@@ -80,10 +80,33 @@ func AddArticle(c *gin.Context) {
 
 //EditArticle  修改文章
 func EditArticle(c *gin.Context) {
-
+	//1.解析参数
+	var p models.ParamsUpdateArticle
+	if err := c.ShouldBind(&p); err != nil {
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			app.ResponseError(c, app.INVALID_PARAMS)
+			return
+		}
+		app.ResponseErrorWithMsg(c, app.INVALID_PARAMS, errs.Translate(global.Trans))
+		return
+	}
+	//2.业务处理
+	err := models.EditArticle(&p)
+	if err != nil {
+		app.ResponseError(c, app.INVALID_PARAMS)
+		return
+	}
+	app.ResponseSuccess(c, nil)
 }
 
 //DeleteArticle 删除文章
 func DeleteArticle(c *gin.Context) {
-
+	//解析参数
+	id := com.StrTo(c.Param("id")).MustInt()
+	err := models.DeleteArticle(id)
+	if err != nil {
+		app.ResponseError(c, app.INVALID_PARAMS)
+	}
+	app.ResponseSuccess(c, nil)
 }

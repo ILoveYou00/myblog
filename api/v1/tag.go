@@ -85,6 +85,7 @@ func EditTag(c *gin.Context) {
 		err := models.EditTag(&p)
 		if err != nil {
 			app.ResponseError(c, app.INVALID_PARAMS)
+			return
 		}
 		app.ResponseSuccess(c, nil)
 	} else {

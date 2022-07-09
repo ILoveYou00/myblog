@@ -28,3 +28,14 @@ type ParamsCreateArticle struct {
 	CreatedBy string `json:"created_by" form:"created_by" binding:"required"`
 	State     int    `json:"state" form:"state" binding:"oneof=1 0"`
 }
+
+//ParamsUpdateArticle 修改文章
+type ParamsUpdateArticle struct {
+	Id         int    `json:"id" form:"id"`
+	TagId      int    `json:"tag_id" form:"tag_id"`
+	Title      string `json:"title" form:"title" binding:"required"`
+	Desc       string `json:"desc" form:"desc" binding:"required,max=255"`
+	Content    string `json:"content" form:"content" binding:"required,max=65535"`
+	ModifiedBy string `json:"modified_by" form:"modified_by" binding:"required"`
+	State      int    `json:"state" form:"state" binding:"oneof=1 0"`
+}
