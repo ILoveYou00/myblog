@@ -24,7 +24,7 @@ type Model struct {
 func init() {
 
 	//连接数据库
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",
 		config.User,
 		config.Password,
 		config.Host,

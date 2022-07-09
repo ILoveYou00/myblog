@@ -60,7 +60,7 @@ func AddTag(c *gin.Context) {
 		if err != nil {
 			log.Println(err)
 		}
-		app.ResponseSuccess(c, app.SUCCESS)
+		app.ResponseSuccess(c, nil)
 	} else {
 		app.ResponseError(c, app.ERROR_EXIST_TAG)
 	}
@@ -86,7 +86,7 @@ func EditTag(c *gin.Context) {
 		if err != nil {
 			app.ResponseError(c, app.INVALID_PARAMS)
 		}
-		app.ResponseSuccess(c, app.SUCCESS)
+		app.ResponseSuccess(c, nil)
 	} else {
 		app.ResponseError(c, app.ERROR_EXIST_TAG)
 	}
@@ -100,5 +100,5 @@ func DeleteTag(c *gin.Context) {
 	if err != nil {
 		app.ResponseError(c, app.INVALID_PARAMS)
 	}
-	app.ResponseSuccess(c, app.SUCCESS)
+	app.ResponseSuccess(c, nil)
 }
