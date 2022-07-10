@@ -1,8 +1,10 @@
 package routers
 
 import (
+	"github.com/ILoveYou00/myblog/api"
 	v1 "github.com/ILoveYou00/myblog/api/v1"
 	"github.com/ILoveYou00/myblog/config"
+	"github.com/ILoveYou00/myblog/middleware/jwt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +18,11 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(config.RunMode)
 
+	r.GET("/auth", api.GetAuth)
+
 	apiv1 := r.Group("/api/v1")
+	//使用身份验证中间件
+	apiv1.Use(jwt.JWTAuthMiddleware())
 	{
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)

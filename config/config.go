@@ -22,6 +22,9 @@ var (
 	Host        string
 	Name        string
 	TablePrefix string
+
+	JwtSecret string
+	Header    string
 )
 
 //初始化配置文件
@@ -35,6 +38,7 @@ func init() {
 	LoadApp(file)
 	LoadServer(file)
 	LoadDatabase(file)
+	LodeJwt(file)
 
 }
 func LoadBase(file *ini.File) {
@@ -58,4 +62,8 @@ func LoadDatabase(file *ini.File) {
 	Host = file.Section("database").Key("HOST").String()
 	Name = file.Section("database").Key("NAME").String()
 	TablePrefix = file.Section("database").Key("TABLE_PREFIX").String()
+}
+func LodeJwt(file *ini.File) {
+	JwtSecret = file.Section("jwt").Key("JWT_SECRET").String()
+	Header = file.Section("jwt").Key("HEADER").String()
 }
