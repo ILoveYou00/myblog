@@ -39,3 +39,8 @@ type ParamsUpdateArticle struct {
 	ModifiedBy string `json:"modified_by" form:"modified_by" binding:"required"`
 	State      int    `json:"state" form:"state" binding:"oneof=1 0"`
 }
+
+type ParamsAuth struct {
+	Username string `json:"username" form:"username"`
+	Password string `json:"password" form:"password"`
+}
