@@ -25,6 +25,12 @@ var (
 
 	JwtSecret string
 	Header    string
+
+	Level      string
+	Filename   string
+	MaxSize    int
+	MaxAge     int
+	MaxBackups int
 )
 
 //初始化配置文件
@@ -39,6 +45,7 @@ func init() {
 	LoadServer(file)
 	LoadDatabase(file)
 	LodeJwt(file)
+	LodeLog(file)
 
 }
 func LoadBase(file *ini.File) {
@@ -66,4 +73,12 @@ func LoadDatabase(file *ini.File) {
 func LodeJwt(file *ini.File) {
 	JwtSecret = file.Section("jwt").Key("JWT_SECRET").String()
 	Header = file.Section("jwt").Key("HEADER").String()
+}
+
+func LodeLog(file *ini.File) {
+	Level = file.Section("log").Key("LEVEL").String()
+	Filename = file.Section("log").Key("FILENAME").String()
+	MaxSize, _ = file.Section("log").Key("MAX_SIZE").Int()
+	MaxAge, _ = file.Section("log").Key("MAX_AGE").Int()
+	MaxBackups, _ = file.Section("log").Key("MAX_BACKUPS").Int()
 }

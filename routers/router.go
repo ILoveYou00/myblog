@@ -5,6 +5,7 @@ import (
 	v1 "github.com/ILoveYou00/myblog/api/v1"
 	"github.com/ILoveYou00/myblog/config"
 	"github.com/ILoveYou00/myblog/middleware/jwt"
+	"github.com/ILoveYou00/myblog/pkg/logging"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,9 +13,9 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.New()
 
-	r.Use(gin.Logger())
+	r.Use(logging.GinLogger())
 
-	r.Use(gin.Recovery())
+	r.Use(logging.GinRecovery(true))
 
 	gin.SetMode(config.RunMode)
 

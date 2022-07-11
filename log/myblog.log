@@ -1,0 +1,2 @@
+{"level":"INFO","time":"2022-07-11T09:19:40.764+0800","caller":"logging/log.go:44","msg":"init logger success"}
+{"level":"INFO","time":"2022-07-11T09:19:55.120+0800","caller":"logging/log.go:77","msg":"/auth","status":200,"method":"GET","path":"/auth","query":"","ip":"127.0.0.1","user-agent":"apifox/1.0.0 (https://www.apifox.cn)","errors":"","cost":0.0207536}
