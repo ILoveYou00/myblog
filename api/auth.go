@@ -10,6 +10,15 @@ import (
 	"gorm.io/gorm"
 )
 
+// GetAuth
+// @Summary Get Auth
+// @Product json
+// @Tags 登录
+// @description 进行身份验证
+// @Param p query models.ParamsAuth true "用户名和密码"
+// @Failure 400 {object} app.ResponseData
+// @Success 200 {object} app.ResponseData
+// @Router /api/v1/auth [get]
 func GetAuth(c *gin.Context) {
 	//1.解析参数
 	var p models.ParamsAuth
@@ -32,6 +41,7 @@ func GetAuth(c *gin.Context) {
 	//3.返回响应
 	if err != nil {
 		app.ResponseError(c, app.ERROR_AUTH_TOKEN)
+		return
 	}
 	app.ResponseSuccess(c, token)
 }

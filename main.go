@@ -7,6 +7,17 @@ import (
 	"net/http"
 )
 
+// @title Golang Gin API
+// @version 1.0
+// @description An example of gin
+// @termOfService http://swagger.io/terms/
+// @contact.name zxp
+// @contact.url http://www.swagger.io/support
+// @contact.email support@seagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8889
+// @BasePath
 func main() {
 	router := routers.InitRouter()
 	s := &http.Server{

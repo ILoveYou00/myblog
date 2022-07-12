@@ -3,10 +3,12 @@ package routers
 import (
 	"github.com/ILoveYou00/myblog/api"
 	v1 "github.com/ILoveYou00/myblog/api/v1"
-	"github.com/ILoveYou00/myblog/config"
+	_ "github.com/ILoveYou00/myblog/docs"
 	"github.com/ILoveYou00/myblog/middleware/jwt"
 	"github.com/ILoveYou00/myblog/pkg/logging"
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 // InitRouter 初始化路由
@@ -17,9 +19,10 @@ func InitRouter() *gin.Engine {
 
 	r.Use(logging.GinRecovery(true))
 
-	gin.SetMode(config.RunMode)
+	//gin.SetMode(config.RunMode)
 
 	r.GET("/auth", api.GetAuth)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	apiv1 := r.Group("/api/v1")
 	//使用身份验证中间件
