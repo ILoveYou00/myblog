@@ -36,7 +36,7 @@ func GetTags(c *gin.Context) {
 		maps["state"] = state
 	}
 
-	data["lists"] = models.GetTags(util.GetPage(c), config.PageSize, maps)
+	data["lists"] = models.GetTags(util.GetPage(c), config.AppSetting.PageSize, maps)
 	data["total"] = models.GetTagTotal(maps)
 	app.ResponseSuccess(c, data)
 }

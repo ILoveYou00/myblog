@@ -36,7 +36,7 @@ func GetArticles(c *gin.Context) {
 	//2.业务处理
 	var err error
 	var p models.ParamsGetArticle
-	p.Article, err = models.GetArticles(util.GetPage(c), config.PageSize)
+	p.Article, err = models.GetArticles(util.GetPage(c), config.AppSetting.PageSize)
 	p.Total, err = models.GetArticleTotal()
 	if err != nil {
 		app.ResponseError(c, app.INVALID_PARAMS)

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/ILoveYou00/myblog/config"
+	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -20,19 +21,20 @@ type Model struct {
 	ModifiedOn time.Time `json:"modified_on" gorm:"autoUpdateTime"`
 }
 
-//初始化数据库
-func init() {
+//Init 初始化数据库
+func Init() {
 
 	//连接数据库
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",
-		config.User,
-		config.Password,
-		config.Host,
-		config.Name,
+		config.DatabaseSetting.User,
+		config.DatabaseSetting.Password,
+		config.DatabaseSetting.Host,
+		config.DatabaseSetting.Name,
 	)
-	db, err := sql.Open(config.Type, dsn)
+	db, err := sql.Open(config.DatabaseSetting.Type, dsn)
 	if err != nil {
-		log.Println(err)
+		zap.L().Fatal("mysql connect error", zap.Error(err))
+		return
 	}
 
 	//最大连接数
@@ -45,7 +47,7 @@ func init() {
 			//设置表名为单数形式
 			SingularTable: true,
 			//设置表名
-			TablePrefix: config.TablePrefix,
+			TablePrefix: config.DatabaseSetting.TablePrefix,
 		},
 		//设置日志格式
 		Logger: logger.Default.LogMode(logger.Info),

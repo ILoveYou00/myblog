@@ -1,13 +1,12 @@
 package config
 
 import (
-	"log"
-	"time"
-
 	"github.com/go-ini/ini"
+	"go.uber.org/zap"
+	"time"
 )
 
-var (
+/*var (
 	RunMode string
 
 	PageSize int
@@ -31,9 +30,59 @@ var (
 	MaxSize    int
 	MaxAge     int
 	MaxBackups int
-)
+)*/
+
+type App struct {
+	PageSize        int
+	RuntimeRootPath string
+
+	ImagePrefixUrl string
+	ImageSavePath  string
+	ImageMaxSize   int
+	ImageAllowExts []string
+}
+
+var AppSetting = &App{}
+
+type Server struct {
+	RunMode      string
+	HttpPort     int
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+}
+
+var ServerSetting = &Server{}
+
+type Database struct {
+	Type        string
+	User        string
+	Password    string
+	Host        string
+	Name        string
+	TablePrefix string
+}
+
+var DatabaseSetting = &Database{}
+
+type Jwt struct {
+	JwtSecret string
+	Header    string
+}
+
+var JwtSetting = &Jwt{}
+
+type Log struct {
+	Level      string
+	Filename   string
+	MaxSize    int
+	MaxAge     int
+	MaxBackups int
+}
+
+var LogSetting = &Log{}
 
 //初始化配置文件
+/*
 func init() {
 	file, err := ini.Load("./conf/app.ini")
 	if err != nil {
@@ -81,4 +130,28 @@ func LodeLog(file *ini.File) {
 	MaxSize, _ = file.Section("log").Key("MAX_SIZE").Int()
 	MaxAge, _ = file.Section("log").Key("MAX_AGE").Int()
 	MaxBackups, _ = file.Section("log").Key("MAX_BACKUPS").Int()
+}
+*/
+
+func Init() {
+	Cfg, err := ini.Load("./conf/app.ini")
+	if err != nil {
+		zap.L().Fatal("Fail to parse 'conf/app.ini'")
+	}
+	err = Cfg.Section("app").MapTo(AppSetting)
+
+	err = Cfg.Section("server").MapTo(ServerSetting)
+	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
+	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
+
+	err = Cfg.Section("database").MapTo(DatabaseSetting)
+
+	err = Cfg.Section("jwt").MapTo(JwtSetting)
+
+	err = Cfg.Section("log").MapTo(LogSetting)
+
+	if err != nil {
+		zap.L().Fatal("initialization failed")
+		return
+	}
 }
