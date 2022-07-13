@@ -18,15 +18,15 @@ import (
 var lg *zap.Logger
 
 // Init 初始化lg
-func init() {
-	writeSyncer := getLogWriter(config.Filename, config.MaxSize, config.MaxBackups, config.MaxAge)
+func Init() {
+	writeSyncer := getLogWriter(config.LogSetting.Filename, config.LogSetting.MaxSize, config.LogSetting.MaxBackups, config.LogSetting.MaxAge)
 	encoder := getEncoder()
 	var l = new(zapcore.Level)
-	err := l.UnmarshalText([]byte(config.Level))
+	err := l.UnmarshalText([]byte(config.LogSetting.Level))
 	if err != nil {
 		return
 	}
-	mode := config.RunMode
+	mode := config.ServerSetting.RunMode
 	var core zapcore.Core
 	if mode == "dev" {
 		// 进入开发模式，日志输出到终端

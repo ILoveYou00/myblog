@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/ILoveYou00/myblog/config"
+	"github.com/ILoveYou00/myblog/models"
+	"github.com/ILoveYou00/myblog/pkg/logging"
 	"github.com/ILoveYou00/myblog/routers"
 	"net/http"
 )
@@ -19,12 +21,20 @@ import (
 // @host localhost:8889
 // @BasePath
 func main() {
+	//初始化配置文件
+	config.Init()
+	//初始化日志
+	logging.Init()
+	//初始化数据库
+	models.Init()
+	//关闭数据库连接
+	defer models.Close()
 	router := routers.InitRouter()
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", config.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", config.ServerSetting.HttpPort),
 		Handler:        router,
-		ReadTimeout:    config.ReadTimeout,
-		WriteTimeout:   config.WriteTimeout,
+		ReadTimeout:    config.ServerSetting.ReadTimeout,
+		WriteTimeout:   config.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 	_ = s.ListenAndServe()

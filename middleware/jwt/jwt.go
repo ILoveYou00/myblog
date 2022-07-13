@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"fmt"
 	"github.com/ILoveYou00/myblog/config"
 	"github.com/ILoveYou00/myblog/pkg/jwt"
 	"github.com/ILoveYou00/myblog/util/app"
@@ -23,8 +22,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		}
 		//按空格分割
 		parts := strings.SplitN(authHeader, " ", 2)
-		fmt.Println(parts[0])
-		if !(len(parts) == 2 && parts[0] == config.Header) {
+		if !(len(parts) == 2 && parts[0] == config.JwtSetting.Header) {
 			app.ResponseError(c, app.ERROR_AUTH_CHECK_TOKEN_FAIL)
 			c.Abort()
 			return
